@@ -10,6 +10,7 @@
         body {
             font-family: sans-serif;
             margin: 0;
+            padding: 0;
         }
 
         #header {
@@ -88,11 +89,72 @@
         .profile-details span {
             font-weight: bold;
         }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            color: white;
+            background-color: #333333;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: rgb(69, 69, 69);
+        }
+
     </style>
 
 </head>
 
 <body>
+
+    <!-- import the connection -->
+    <?php
+// Start the session
+session_start();
+
+// Check if the user is logged in (check if session exists)
+if (!isset($_SESSION['user_id'])) {
+
+    // User is not logged in
+    // Redirect to login page or display an error message
+    header("Location: login.php");
+    exit();
+    
+
+} else {
+
+    // User is logged in, get user ID from session
+    $userId = $_SESSION['user_id'];
+
+    // **Important:** **Do not store sensitive data directly in cookies**
+    // Instead, use the user ID to fetch user information from the database
+
+    require_once('Connection.php');
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch user information from the database
+    $sql = "SELECT * FROM users WHERE user_id = $userId";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $userInfo = $result->fetch_assoc();
+
+    } else {
+        // User not found in the database
+        echo "User not found.";
+    }
+
+    $conn->close();
+    
+}
+?>
 
     <div id="header">
         <h2>Profile</h2>
@@ -120,18 +182,23 @@
 
                 <div class="profile-details">
                     <label>Full Name:</label>
-                    <span>John Doe</span><br>
+                    <span><?php echo $userInfo['fname'] . " " . $userInfo['lname']; ?></span><br>
+
 
                     <label>Username:</label>
-                    <span>johndoe123</span><br>
+                    <span><?php echo $userInfo['username']; ?></span><br>
 
                     <label>Email:</label>
-                    <span>john.doe@example.com</span><br>
+                    <span><?php echo $userInfo['email']; ?></span><br>
 
                     <label>Phone:</label>
-                    <span>+1 123-456-7890</span><br>
+                    <span><?php echo $userInfo['phone']; ?></span><br>
+
+                    <label>Sex:</label>
+                    <span><?php echo $userInfo['sex']; ?></span><br>
 
                     <a href="edit_profile.php" class="btn">Edit Profile</a>
+                    <a href="logout.php" class="btn">Logout</a>
                 </div>
             </div>
         </div>
