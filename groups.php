@@ -81,7 +81,7 @@
     session_start();
 
     // Check if the user is logged in
-    if (!isset($_SESSION['user_id'])) {
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
         header("Location: login.php");
         exit();
     }

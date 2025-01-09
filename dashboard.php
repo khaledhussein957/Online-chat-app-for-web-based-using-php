@@ -27,7 +27,7 @@
             color: #fff;
             padding: 20px;
             width: 200px;
-            height: 588px;
+            height: 100vh;
         }
 
         #sidebar ul {
@@ -72,13 +72,25 @@
             background-color: #eee;
         }
 
-        a[type="edit"] {
-            color: #4CAF50;
+        .btn {
+            padding: 5px 10px;
+            border-radius: 3px;
             text-decoration: none;
         }
-        a[type="delete"] {
-            color: rgb(255, 0, 0);
-            text-decoration: none;
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .ll {
+            display: flex;
+            gap: 2px;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
         }
     </style>
 
@@ -86,27 +98,27 @@
 
 <body>
 
-<?php
-session_start();
+    <?php
+    session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
+    // Check if the user is logged in
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
+        header("Location: login.php");
+        exit();
+    }
 
-require_once('Connection.php');
+    require_once('Connection.php');
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-// Fetch users from the database
-$sql = "SELECT * FROM users";
-$result = $conn->query($sql);
+    // Fetch users from the database
+    $sql = "SELECT * FROM users";
+    $result = $conn->query($sql);
 
-?>
+    ?>
 
     <div id="header">
         <h2>Users</h2>
@@ -116,9 +128,13 @@ $result = $conn->query($sql);
     <div class="main">
         <div id="sidebar">
             <ul>
-                <li><a href="dashboard.php">Users</a></li>
-                <li><a href="groups.php">Groups</a></li>
-                <li><a href="profile.php">Profile</a></li>
+                <?php if ($_SESSION['user_type'] === 'admin') { ?>
+                    <li><a href="dashboard.php">Users</a></li>
+                    <li><a href="groups.php">Groups</a></li>
+                    <li><a href="profile.php">Profile</a></li>
+                <?php } else { ?>
+                    <li><a href="chats.php">Chats</a></li>
+                <?php } ?>
             </ul>
         </div>
 
@@ -138,7 +154,6 @@ $result = $conn->query($sql);
                         <th>Sex</th>
                         <th>Email</th>
                         <th>User Type</th>
-                        <th>Profile pic</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -155,12 +170,11 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["sex"] . "</td>";
                             echo "<td>" . $row["email"] . "</td>";
                             echo "<td>" . $row["user_type"] . "</td>";
-                            echo "<td>" . $row["profile_picture"] . "</td>";
-                            echo "<td><a type='edit' href='edit_user.php?id=" . $row["user_id"] . "'>Edit</a> | <a type='delete' href='delete_user.php?id=" . $row["user_id"] . "'>Delete</a></td>";
+                            echo "<td class='ll'><a class='btn btn-primary' href='edit_user.php?id=" . $row["user_id"] . "'>Edit</a>  <a class='btn btn-danger' onclick=\"return confirm('Are you sure you want to delete this user?');\" href='delete_user.php?id=" . $row["user_id"] . "'>Delete</a></td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='6'>No users found.</td></tr>";
+                        echo "<tr><td colspan='10'>No users found.</td></tr>";
                     }
                     ?>
                 </tbody>

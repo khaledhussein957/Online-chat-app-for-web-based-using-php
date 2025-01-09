@@ -53,11 +53,21 @@
 
                     session_start();
                     $_SESSION['user_id'] = $row["user_id"];
+                    $_SESSION['user_type'] = $row["user_type"];
                     $_SESSION['username'] = $row["username"];
 
-                    // redirect to dashboard page 
-                    header("Location: dashboard.php");
-                    exit();
+                    // if user type is admin navigate to dashboard else to chats page
+                    if ($row["user_type"] == "admin") {
+                        // redirect to dashboard page 
+                        header("Location: dashboard.php");
+                        exit();
+                    } else{
+                        // redirect to chats page
+                        header("Location: chats.php");
+                    }
+
+
+                    
                 } else {
                     echo "<script>alert('Incorrect password.')</script>";
                 }

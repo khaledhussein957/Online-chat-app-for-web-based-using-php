@@ -28,7 +28,7 @@
             color: #fff;
             padding: 20px;
             width: 200px;
-            height: 588px;
+            height: 100vh;
         }
 
         #sidebar ul {
@@ -115,15 +115,10 @@
 // Start the session
 session_start();
 
-// Check if the user is logged in (check if session exists)
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-
-    // User is not logged in
-    // Redirect to login page or display an error message
     header("Location: login.php");
     exit();
-    
-
 } else {
 
     // User is logged in, get user ID from session
@@ -149,6 +144,7 @@ if (!isset($_SESSION['user_id'])) {
     } else {
         // User not found in the database
         echo "User not found.";
+        exit();
     }
 
     $conn->close();
@@ -164,9 +160,13 @@ if (!isset($_SESSION['user_id'])) {
     <div class="main">
         <div id="sidebar">
             <ul>
-                <li><a href="dashboard.php">Users</a></li>
-                <li><a href="groups.php">Groups</a></li>
-                <li><a href="profile.php">Profile</a></li>
+                <?php if ($_SESSION['user_type'] === 'admin') { ?>
+                    <li><a href="dashboard.php">Users</a></li>
+                    <li><a href="groups.php">Groups</a></li>
+                    <li><a href="profile.php">Profile</a></li>
+                <?php } else { ?>
+                    <li><a href="chats.php">Chats</a></li>
+                <?php } ?>
             </ul>
         </div>
 
@@ -177,7 +177,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <div class="profile-container">
                 <div class="profile-image">
-                    <img src="user_image.jpg" alt="User Image">
+                    <img src="<?php echo !empty($userInfo['profile_picture']) ? $userInfo['profile_picture'] : 'user.png'; ?>" alt="User Image">
                 </div>
 
                 <div class="profile-details">
