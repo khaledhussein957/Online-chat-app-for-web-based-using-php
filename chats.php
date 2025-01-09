@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chats page</title>
 
-    <style>
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 10px;
-            color: white;
-            background-color: #333333;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .btn:hover {
-            background-color: rgb(69, 69, 69);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 
 </head>
+
 <body>
 
-<a href="logout.php" class="btn">Logout</a>
-    
+    <div class="main">
+        <div id="sidebar">
+            <ul>
+                <li><a href="chats.php">Chats</a></li>
+                <li><a href="logout.php" class="btn">Logout</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <ul>
+                <li>user 1</li>
+                <li>user 2</li>
+            </ul>
+        </div>
+        <div id="main-content">
+            <h1>Welcome,</h1>
+
+        </div>
+    </div>
+
+
 </body>
+
 </html>

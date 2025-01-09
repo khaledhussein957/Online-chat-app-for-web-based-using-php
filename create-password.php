@@ -37,33 +37,23 @@ if (isset($_SESSION['user_id'])) {
             $newPassword = $_POST['new_password'];
             $confirmPassword = $_POST['confirm_password'];
 
-            // Validate new password
-            if (empty($newPassword)) {
-                $newPasswordErr = "New password is required";
-            } elseif (strlen($newPassword) < 8) {
-                $newPasswordErr = "Password must be at least 8 characters long";
-            }
-
             // Validate confirm password
-            if (empty($confirmPassword)) {
-                $confirmPasswordErr = "Confirm password is required";
-            } elseif ($newPassword !== $confirmPassword) {
+  
+            if ($newPassword !== $confirmPassword) {
                 $confirmPasswordErr = "Passwords do not match";
             }
 
-            if (empty($newPasswordErr) && empty($confirmPasswordErr)) {
                 // Hash the new password
                 $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
                 // Update user's password in the database
-                $sql = "UPDATE users SET password='$hashedPassword' WHERE user_id=$userId"; 
+                $sql = "UPDATE users SET password='$hashedPassword' WHERE user_id = $userId"; 
 
                 if ($conn->query($sql) === TRUE) {
                     echo "<p>Password updated successfully!</p>";
                 } else {
                     echo "Error updating password: " . $conn->error;
                 }
-            }
         }
     } else {
         echo "<p>Invalid or expired token.</p>";

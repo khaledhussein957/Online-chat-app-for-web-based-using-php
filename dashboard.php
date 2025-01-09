@@ -102,7 +102,7 @@
     session_start();
 
     // Check if the user is logged in
-    if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
         header("Location: login.php");
         exit();
     }
@@ -128,13 +128,9 @@
     <div class="main">
         <div id="sidebar">
             <ul>
-                <?php if ($_SESSION['user_type'] === 'admin') { ?>
                     <li><a href="dashboard.php">Users</a></li>
                     <li><a href="groups.php">Groups</a></li>
                     <li><a href="profile.php">Profile</a></li>
-                <?php } else { ?>
-                    <li><a href="chats.php">Chats</a></li>
-                <?php } ?>
             </ul>
         </div>
 
