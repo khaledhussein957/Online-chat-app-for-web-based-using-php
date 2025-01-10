@@ -129,12 +129,9 @@
     <div class="main">
         <div id="sidebar">
             <ul>
-                <?php if ($_SESSION['user_type'] === 'admin') { ?>
                     <li><a href="dashboard.php">Users</a></li>
+                    <li><a href="chat.php">Chats</a></li>
                     <li><a href="profile.php">Profile</a></li>
-                <?php } else { ?>
-                    <li><a href="chats.php">Chats</a></li>
-                <?php } ?>
             </ul>
         </div>
 

@@ -158,6 +158,7 @@
         <div id="sidebar">
             <ul>
                 <li><a href="dashboard.php">Users</a></li>
+                <li><a href="chat.php">Chats</a></li>
                 <li><a href="profile.php">Profile</a></li>
             </ul>
         </div>
