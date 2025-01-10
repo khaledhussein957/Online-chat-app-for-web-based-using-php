@@ -22,7 +22,7 @@
         exit();
     }
 
-    require_once('db.php');
+    require_once('Connection.php');
     // Check connection
     if ($conn->connect_error) {
         // print in the console log

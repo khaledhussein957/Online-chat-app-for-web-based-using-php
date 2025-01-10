@@ -32,12 +32,9 @@ if ($conn->connect_error) {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Hash password for security
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
         // Prepare and execute SQL statement
         $stmt = $conn->prepare("INSERT INTO users (fname, lname, username, phone, sex, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssss", $fname, $lname, $username, $phone, $sex, $email, $hashedPassword);
+        $stmt->bind_param("sssssss", $fname, $lname, $username, $phone, $sex, $email, $password);
 
         if ($stmt->execute()) {
             // Registration successful

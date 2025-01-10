@@ -108,7 +108,7 @@
     }
     
 
-    require_once('db.php');
+    require_once('Connection.php');
 
     // Check connection
     if ($conn->connect_error) {

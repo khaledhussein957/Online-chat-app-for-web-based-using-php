@@ -15,7 +15,7 @@
     <?php
     session_start();
 
-    require_once('db.php');
+    require_once('Connection.php');
 
     // Check connection
     if ($conn->connect_error) {

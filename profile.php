@@ -126,7 +126,7 @@
         // **Important:** **Do not store sensitive data directly in cookies**
         // Instead, use the user ID to fetch user information from the database
 
-        require_once('db.php');
+        require_once('Connection.php');
 
         // Check connection
         if ($conn->connect_error) {
