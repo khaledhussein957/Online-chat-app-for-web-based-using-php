@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is logged in and has necessary permissions
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin' ) {
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'user') {
     header("Location: login.php");
     exit();
 }
@@ -23,12 +23,12 @@ if (isset($_GET['id'])) {
 
     if ($conn->query($sql) === TRUE) {
         echo "<p>User deleted successfully!</p>";
-        header("Location: dashboard.php");
+        session_destroy();
+        header("Location: login.php");
         exit();
     } else {
         echo "Error deleting user: " . $conn->error;
     }
-
 } else {
     header("Location: users.php"); 
     exit();

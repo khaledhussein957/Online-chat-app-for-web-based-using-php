@@ -102,12 +102,13 @@
     session_start();
 
     // Check if the user is logged in
-    if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
         header("Location: login.php");
         exit();
     }
+    
 
-    require_once('Connection.php');
+    require_once('db.php');
 
     // Check connection
     if ($conn->connect_error) {
@@ -128,9 +129,13 @@
     <div class="main">
         <div id="sidebar">
             <ul>
+                <?php if ($_SESSION['user_type'] === 'admin') { ?>
                     <li><a href="dashboard.php">Users</a></li>
                     <li><a href="groups.php">Groups</a></li>
                     <li><a href="profile.php">Profile</a></li>
+                <?php } else { ?>
+                    <li><a href="chats.php">Chats</a></li>
+                <?php } ?>
             </ul>
         </div>
 

@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin' ) {
     exit();
 }
 
-require_once('Connection.php');
+require_once('db.php');
 
 // Check connection
 if ($conn->connect_error) {

@@ -22,7 +22,7 @@
         exit();
     }
 
-    require_once('Connection.php');
+    require_once('db.php');
     // Check connection
     if ($conn->connect_error) {
         // print in the console log
@@ -63,7 +63,7 @@
                         exit();
                     } else{
                         // redirect to chats page
-                        header("Location: chats.php");
+                        header("Location: chat.php");
                     }
 
 

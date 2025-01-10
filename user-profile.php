@@ -4,52 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile page</title>
+    <title>profile</title>
 
     <style>
         body {
             font-family: sans-serif;
             margin: 0;
-            padding: 0;
         }
 
-        #header {
-            background-color: #f0f0f0;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .main {
+        .container {
             display: flex;
-        }
-
-        #sidebar {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            width: 200px;
             height: 100vh;
         }
 
-        #sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        #sidebar a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-        }
-
-        #sidebar a:hover {
-            background-color: #555;
-        }
-
-        #main-content {
+        .content {
             flex: 1;
             padding: 20px;
+            overflow-y: auto;
         }
 
         h1,
@@ -104,14 +75,41 @@
             background-color: rgb(69, 69, 69);
         }
 
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .page {
+            color: white;
+            padding: 10px;
+            text-align: center;
+            gap: 10px;
+            border-right: 1 solid #333;
+        }
+
+        .page ul {
+            list-style: none;
+        }
+
+        .page a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+        }
+
+        .page a:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 
 </head>
 
 <body>
 
-    <!-- import the connection -->
-    <?php
+
+<?php
 // Start the session
 session_start();
 
@@ -127,7 +125,7 @@ if (!isset($_SESSION['user_id'])) {
     // **Important:** **Do not store sensitive data directly in cookies**
     // Instead, use the user ID to fetch user information from the database
 
-    require_once('db.php');
+    require_once('Connection.php');
 
     // Check connection
     if ($conn->connect_error) {
@@ -146,33 +144,23 @@ if (!isset($_SESSION['user_id'])) {
         echo "User not found.";
         exit();
     }
-
-    $conn->close();
     
 }
 ?>
 
-    <div id="header">
-        <h2>Profile</h2>
-    </div>
 
 
-    <div class="main">
-        <div id="sidebar">
+    <div class="container">
+
+        <div class="page">
             <ul>
-                <?php if ($_SESSION['user_type'] === 'admin') { ?>
-                    <li><a href="dashboard.php">Users</a></li>
-                    <li><a href="groups.php">Groups</a></li>
-                    <li><a href="profile.php">Profile</a></li>
-                <?php } else { ?>
-                    <li><a href="chat.php">Chats</a></li>
-                <?php } ?>
+                <li><a href="chats.php">Chats</a></li>
+                <li><a href="user-profile.php">Profile</a></li>
             </ul>
         </div>
 
 
-
-        <div id="main-content">
+        <div class="content">
             <h1>My Profile</h1>
 
             <div class="profile-container">
@@ -199,12 +187,13 @@ if (!isset($_SESSION['user_id'])) {
 
                     <a href="edit_profile.php" class="btn">Edit Profile</a>
                     <a href="logout.php" class="btn">Logout</a>
+                    <a class='btn btn-danger' onclick="return confirm('Are you sure you want to delete this user?');" href='delete_profile.php?id=<?php echo $userInfo["user_id"]; ?>'>Delete Profile</a>
                 </div>
             </div>
         </div>
     </div>
 
-
 </body>
-
 </html>
+
+<?php $conn->close(); ?>
