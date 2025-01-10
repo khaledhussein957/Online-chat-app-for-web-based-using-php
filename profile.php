@@ -103,7 +103,6 @@
         .btn:hover {
             background-color: rgb(69, 69, 69);
         }
-
     </style>
 
 </head>
@@ -112,45 +111,43 @@
 
     <!-- import the connection -->
     <?php
-// Start the session
-session_start();
+    // Start the session
+    session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-} else {
-
-    // User is logged in, get user ID from session
-    $userId = $_SESSION['user_id'];
-
-    // **Important:** **Do not store sensitive data directly in cookies**
-    // Instead, use the user ID to fetch user information from the database
-
-    require_once('db.php');
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Fetch user information from the database
-    $sql = "SELECT * FROM users WHERE user_id = $userId";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $userInfo = $result->fetch_assoc();
-
-    } else {
-        // User not found in the database
-        echo "User not found.";
+    // Check if the user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: login.php");
         exit();
-    }
+    } else {
 
-    $conn->close();
-    
-}
-?>
+        // User is logged in, get user ID from session
+        $userId = $_SESSION['user_id'];
+
+        // **Important:** **Do not store sensitive data directly in cookies**
+        // Instead, use the user ID to fetch user information from the database
+
+        require_once('db.php');
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Fetch user information from the database
+        $sql = "SELECT * FROM users WHERE user_id = $userId";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $userInfo = $result->fetch_assoc();
+        } else {
+            // User not found in the database
+            echo "User not found.";
+            exit();
+        }
+
+        $conn->close();
+    }
+    ?>
 
     <div id="header">
         <h2>Profile</h2>
@@ -160,13 +157,8 @@ if (!isset($_SESSION['user_id'])) {
     <div class="main">
         <div id="sidebar">
             <ul>
-                <?php if ($_SESSION['user_type'] === 'admin') { ?>
-                    <li><a href="dashboard.php">Users</a></li>
-                    <li><a href="groups.php">Groups</a></li>
-                    <li><a href="profile.php">Profile</a></li>
-                <?php } else { ?>
-                    <li><a href="chat.php">Chats</a></li>
-                <?php } ?>
+                <li><a href="dashboard.php">Users</a></li>
+                <li><a href="profile.php">Profile</a></li>
             </ul>
         </div>
 

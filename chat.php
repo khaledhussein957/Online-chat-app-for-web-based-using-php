@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('db.php');
+require_once('Connection.php');
 
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -30,9 +30,8 @@ if (isset($_GET['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real-time Chat</title>
-    
     <style>
-      body {
+        body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;

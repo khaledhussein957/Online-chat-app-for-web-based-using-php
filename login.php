@@ -17,7 +17,7 @@
     session_start();
 
     // Check if the user is logged in
-    if (isset($_SESSION['user_id'])) {
+    if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'admin') {
         header("Location: dashboard.php");
         exit();
     }
@@ -98,10 +98,6 @@
                     <input type="password" id="password" name="password" required>
                 </div>
 
-                <!-- link for forget password -->
-                <div class="form-group">
-                    <p><a href="forget-password.php">Forget password?</a></p>
-                </div>
 
                 <div class="form-group">
                     <button type="submit" name="submit">

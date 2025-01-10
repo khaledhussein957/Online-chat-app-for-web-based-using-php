@@ -1,6 +1,6 @@
 <?php
 // connection of the database 
-require_once('db.php');
+require_once('Connection.php');
 
 // starts the session
 session_start();
